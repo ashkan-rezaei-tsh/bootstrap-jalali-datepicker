@@ -407,6 +407,8 @@
             buttonImageOnly: false, // True if the image appears alone, false if it appears on a button
             hideIfNoPrevNext: false, // True to hide next/previous month links
             // if not applicable, false to just disable them
+	        leftArrowClasses: 'icon-circle-arrow-left',
+	        rightArrowClasses: 'icon-circle-arrow-right',
             navigationAsDateFormat: false, // True if date formatting applied to prev/today/next links
             gotoCurrent: false, // True if today link goes back to current selection instead
             changeMonth: false, // True if month can be selected directly, false if only prev/next
@@ -1896,21 +1898,19 @@
             inst.drawMonth = drawMonth;
             inst.drawYear = drawYear;
             var prevText = this._get(inst, 'prevText');
+	
+	        var leftArrowClasses = this._get(inst, "leftArrowClasses");
+	        var rightArrowClasses = this._get(inst, "rightArrowClasses");
+            
             prevText = (!navigationAsDateFormat ? prevText : this.formatDate(prevText,
                 this._daylightSavingAdjust(new this.CDate(drawYear, drawMonth - stepMonths, 1)),
                 this._getFormatConfig(inst)));
-            var prev = (this._canAdjustMonth(inst, -1, drawYear, drawMonth) ?
-                '<a class="ui-datepicker-prev btn btn-link" data-handler="prev" data-event="click"' +
-                ' title="' + prevText + '">' + (isRTL ? '<i class="icon-circle-arrow-right"></i>' : '<i class="icon-circle-arrow-left"></i>') + '</a>' :
-                (hideIfNoPrevNext ? '' : '<a class="ui-datepicker-prev btn btn-link ui-state-disabled" title="'+ prevText +'">' + (isRTL ? '<i class="icon-circle-arrow-right"></i>' : '<i class="icon-circle-arrow-left"></i>') + '</a>'));
+	        var prev = (this._canAdjustMonth(inst, -1, drawYear, drawMonth) ? '<a class="ui-datepicker-prev btn btn-link" data-handler="prev" data-event="click" title="' + prevText + '">' + (isRTL ? '<i class="' + rightArrowClasses + '"></i>' : '<i class="' + leftArrowClasses + '"></i>') + "</a>" : (hideIfNoPrevNext ? "" : '<a class="ui-datepicker-prev btn btn-link ui-state-disabled" title="' + prevText + '">' + (isRTL ? '<i class="' + rightArrowClasses +'"></i>' : '<i class="'+ leftArrowClasses +'"></i>') + "</a>"));
             var nextText = this._get(inst, 'nextText');
             nextText = (!navigationAsDateFormat ? nextText : this.formatDate(nextText,
                 this._daylightSavingAdjust(new this.CDate(drawYear, drawMonth + stepMonths, 1)),
                 this._getFormatConfig(inst)));
-            var next = (this._canAdjustMonth(inst, +1, drawYear, drawMonth) ?
-                '<a class="ui-datepicker-next btn btn-link" data-handler="next" data-event="click"' +
-                ' title="' + nextText + '">' + (isRTL ? '<i class="icon-circle-arrow-left"></i>' : '<i class="icon-circle-arrow-right"></i>') + '</a>' :
-                (hideIfNoPrevNext ? '' : '<a class="ui-datepicker-next btn btn-link ui-state-disabled" title="'+ nextText + '">' + (isRTL ? '<i class="icon-circle-arrow-left"></i>' : '<i class="icon-circle-arrow-right"></i>') + '</a>'));
+	        var next = (this._canAdjustMonth(inst, +1, drawYear, drawMonth) ? '<a class="ui-datepicker-next btn btn-link" data-handler="next" data-event="click" title="' + nextText + '">' + (isRTL ? '<i class="' + leftArrowClasses + '"></i>' : '<i class="' + rightArrowClasses + '"></i>') + "</a>" : (hideIfNoPrevNext ? "" : '<a class="ui-datepicker-next btn btn-link ui-state-disabled" title="' + nextText + '">' + (isRTL ? '<i class="' + leftArrowClasses + '"></i>' : '<i class="'+ rightArrowClasses +'"></i>') + "</a>"));
             var currentText = this._get(inst, 'currentText');
             var gotoDate = (this._get(inst, 'gotoCurrent') && inst.currentDay ? currentDate : today);
             currentText = (!navigationAsDateFormat ? currentText :
